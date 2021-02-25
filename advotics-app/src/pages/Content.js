@@ -5,6 +5,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
 import ShoppingIcon from "../images/shopping-logo.JPG"
+import Graph from "../components/Graph"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -116,6 +117,7 @@ function DashboardContent() {
             <Grid container className={classes.spacing} spacing={2}>
                 <Grid item xs={6}>
                     <Paper variant="outlined" className={classes.paperPadding}>
+                        <Graph/>
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
