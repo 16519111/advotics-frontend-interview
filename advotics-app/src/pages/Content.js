@@ -39,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
     },
     shoppingIcon: {
         width: "60px"
+    },
+    graphMarginBottom: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginBottom: "3%"
     }
   }));
 function DashboardContent() {
@@ -117,15 +124,33 @@ function DashboardContent() {
             <Grid container className={classes.spacing} spacing={2}>
                 <Grid item xs={6}>
                     <Paper variant="outlined" className={classes.paperPadding}>
+                        <div className={classes.graphMarginBottom}>
+                            <Typography>
+                                AVERAGE PURCHASE VALUE
+                            </Typography>
+                            <HiOutlineDotsVertical/>
+                        </div>
                         <Graph/>
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
                     <Paper variant="outlined" className={classes.paperPadding}>
+                        <div className={classes.graphMarginBottom}>
+                            <Typography>
+                                BEST SELLING SKU
+                            </Typography>
+                            <HiOutlineDotsVertical/>
+                        </div>
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
                     <Paper variant="outlined" className={classes.paperPadding}>
+                        <div className={classes.graphMarginBottom}>
+                            <Typography>
+                                TOP COMPETITOR SKU
+                            </Typography>
+                            <HiOutlineDotsVertical/>
+                        </div>
                     </Paper>
                 </Grid>
             </Grid>

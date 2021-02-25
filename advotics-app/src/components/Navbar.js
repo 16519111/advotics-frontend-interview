@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
   navbarColor: {
     backgroundColor: "white",
     boxShadow: "0px white",
-    position: "relative",
   },
   navbarFlex: {
     boxShadow: "0px white",
@@ -59,7 +58,7 @@ function Navbar() {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <AppBar position="static" className={classes.navbarColor} elevation={1}>
+      <AppBar position="fixed" className={classes.navbarColor} elevation={1}>
         <Toolbar className={classes.navbarFlex}>
           <div className={classes.logoContainer}>
             <img src={AdvoticsLogo} alt="img-error" className={classes.advoticsLogo}/>
@@ -72,10 +71,11 @@ function Navbar() {
               <Typography color="textSecondary" align="center" className={classes.usernameText} variant="subtitle1">Username</Typography>
               <Typography color="textSecondary" align="center" variant="caption" className={classes.companyText}>Company Name</Typography>   
           </div>
-          <Avatar src="/broken-image.jpg" className={classes.navbarTitle}/>
+          <Avatar className={classes.navbarTitle}/>
           <FiLogOut style={{color: "black"}} className={classes.navbarTitle}/>
         </Toolbar>
       </AppBar>
+      <Toolbar />
     </div>
   );
 }

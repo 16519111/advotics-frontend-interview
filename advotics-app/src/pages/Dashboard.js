@@ -111,7 +111,7 @@ export default function MiniDrawer() {
         elevation={0}
       >
         <div style={{flexShrink: 0,}}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton>
             <FiLogOut style={{color: "black"}} className={classes.navbarTitle}/>
           </IconButton>
         </div>
