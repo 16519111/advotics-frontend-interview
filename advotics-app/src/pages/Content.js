@@ -6,7 +6,6 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
 import ShoppingIcon from "../images/shopping-logo.JPG"
 import Graph from "../components/Graph"
-import { dummySKUItem } from "../consts/SKUItem"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,16 +49,6 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 function DashboardContent() {
-    const generateSKUItem = (product_name, image, price, quantity_sold) => {
-        return (
-            <Paper>
-                <img src={require('./../images/danone-green-image.png')} alt="img-error"/>
-                <Typography>{product_name}</Typography>
-                <Typography>Rp {price}</Typography>
-                <Typography>{quantity_sold}</Typography>
-            </Paper>
-        )
-    }
     const classes = useStyles()
     return (
         <div className={classes.root}>
@@ -152,11 +141,6 @@ function DashboardContent() {
                             </Typography>
                             <HiOutlineDotsVertical/>
                         </div>
-                        {dummySKUItem.map((item) => {
-                            return (
-                                generateSKUItem(item.product_name, item.image, item.price, item.quantity_sold)
-                            )
-                        })}
                     </Paper>
                 </Grid>
                 <Grid item xs={3}>
