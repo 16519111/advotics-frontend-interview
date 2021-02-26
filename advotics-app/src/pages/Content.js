@@ -5,9 +5,10 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
-import ShoppingIcon from "../images/shopping-logo.JPG"
-import Graph from "../components/Graph"
-import { dummySKUItem } from "../consts/SKUItem"
+import ShoppingIcon from "../images/shopping-logo.JPG";
+import Graph from "../components/Graph";
+import { dummySKUItem } from "../consts/SKUItem";
+import Calendar from "../components/Calendar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -112,9 +113,9 @@ function DashboardContent() {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem>
+                        <Calendar />
+                    </MenuItem>
                 </Menu>
             </div>
             <Accordion className={classes.spacing}>
