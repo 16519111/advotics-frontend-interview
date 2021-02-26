@@ -58,8 +58,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginTop: theme.spacing(1),
-        marginBottom: theme.spacing(1)
+
     },
     spacingPaper: {
         marginLeft: theme.spacing(1),
@@ -97,26 +96,25 @@ function DashboardContent() {
                 <Typography variant="h4" color="textSecondary">
                     Dashboard
                 </Typography>
-                <Paper className={classes.rowFlex} onClick={handleClick}>
-                    <HiOutlineCalendar className={classes.spacingPaper} />
-                    <Typography className={classes.spacingPaper}>
-                        Period
-                    </Typography>
-                    <Typography className={classes.spacingPaper}>
-                        11 September 2018 - 14 September 2018
-                    </Typography>
-                </Paper>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem>
+                <Accordion>
+                    <AccordionSummary
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <div className={classes.mkuPaper}>
+                            <HiOutlineCalendar className={classes.spacingPaper}/>
+                            <Typography className={classes.spacingPaper}>
+                                Period
+                            </Typography>
+                            <Typography className={classes.spacingPaper}>
+                                11 September 2018 - 14 September 2018
+                            </Typography>
+                        </div>
+                    </AccordionSummary>
+                    <AccordionDetails>
                         <Calendar />
-                    </MenuItem>
-                </Menu>
+                    </AccordionDetails>
+                </Accordion>
             </div>
             <Accordion className={classes.spacing}>
                 <AccordionSummary
