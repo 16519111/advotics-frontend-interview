@@ -1,5 +1,5 @@
 import React from "react"
-import { AppBar, Toolbar, Typography, Button, Avatar, Paper, Grid, Menu, MenuItem } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button, Avatar, Paper, Grid, Divider} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -8,6 +8,7 @@ import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
 import ShoppingIcon from "../images/shopping-logo.JPG"
 import Graph from "../components/Graph"
 import { dummySKUItem } from "../consts/SKUItem"
+import Calendar from "../components/Calendar"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,11 +22,14 @@ const useStyles = makeStyles((theme) => ({
     filterPaper: {
         display: "flex",
         flexDirection: "row",
-        padding: "10px"
+        alignItems: "center",
     },
     insightSummaryPaper: {
         backgroundColor: "#37B04C",
-        color: "white"
+        color: "white",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
     },
     spacing: {
         marginTop: "1.7%"
@@ -35,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    columnFlex: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start"
     },
     paperPadding: {
         padding: "15px"
@@ -63,6 +72,18 @@ const useStyles = makeStyles((theme) => ({
     spacingPaper: {
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
+    },
+    buttonText: {
+        textAlign: "left"
+    },
+    calendarDivider: {
+        marginTop: "3px",
+        marginBottom: "3px",
+        clear: "both",
+        display: "block",
+        width: "90%",
+        marginLeft: "8px",
+        marginRight: "8px"
     }
   }));
 function DashboardContent() {
@@ -96,26 +117,7 @@ function DashboardContent() {
                 <Typography variant="h4" color="textSecondary">
                     Dashboard
                 </Typography>
-                <Paper className={classes.rowFlex} onClick={handleClick}>
-                    <HiOutlineCalendar className={classes.spacingPaper} />
-                    <Typography className={classes.spacingPaper}>
-                        Period
-                    </Typography>
-                    <Typography className={classes.spacingPaper}>
-                        11 September 2018 - 14 September 2018
-                    </Typography>
-                </Paper>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
-                </Menu>
+                <Calendar />
             </div>
             <Accordion className={classes.spacing}>
                 <AccordionSummary
