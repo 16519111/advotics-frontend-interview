@@ -9,6 +9,7 @@ import ShoppingIcon from "../images/shopping-logo.JPG"
 import Graph from "../components/Graph"
 import { dummySKUItem } from "../consts/SKUItem"
 import Calendar from "../components/Calendar"
+import { BiX, BiChevronDown } from "react-icons/bi";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: "3%"
     },
     skuImage: {
-        width: "100px",
+        width: "80px",
         marginRight: theme.spacing(1)
     },
     mkuPaper: {
@@ -102,10 +103,7 @@ function DashboardContent() {
                 <img src={image} alt="img-error" className={classes.skuImage}/>
                 <div>
                     <Typography style={{ fontWeight: "bold" }}>{product_name}</Typography>
-                    <div className={classes.rowFlex}>
-                        <Typography variant="body2" color="textSecondary">Rp {price}</Typography>
-                        <Typography>{quantity_sold}</Typography>
-                    </div>
+                    <Typography variant="body2" color="textSecondary">Rp {price} - {quantity_sold}</Typography>
                 </div>
             </Paper>
         )
@@ -124,17 +122,15 @@ function DashboardContent() {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     className={classes.insightSummaryPaper}
+                    expandIcon={<BiChevronDown/>}
                 >
                     <Typography>
                         MARKET INSIGHTS
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                        Period
-                    </Typography>
-                    <Typography>
-                        11 September 2018 - 14 September 2018
+                    <Typography color="textSecondary">
+                        Not Available
                     </Typography>
                 </AccordionDetails>
             </Accordion>
@@ -142,18 +138,18 @@ function DashboardContent() {
                 <Grid item xs={3}>
                     <Paper variant="outlined" className={classes.paperPadding}>
                         <div className={classes.rowFlex}>
-                            <Typography>
+                            <Typography color="textSecondary">
                                 Sales Turnover
                             </Typography>
                             <HiOutlineDotsVertical/>
                         </div>
                         <div className={classes.rowFlex}>
                             <div>
-                                <Typography>
+                                <Typography variant="h6" style={{fontWeight: "bold"}}>
                                     Rp 3,600,000
                                 </Typography>
                                 <Typography variant="caption">
-                                    13.8% last period in products sold
+                                    <span style={{color: "red", fontWeight: "bold"}}>13.8%</span> last period in products sold
                                 </Typography>
                             </div>
                             <img src={ShoppingIcon} alt="img-error" className={classes.shoppingIcon}/>

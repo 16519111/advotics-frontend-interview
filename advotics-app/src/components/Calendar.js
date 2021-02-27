@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { AppBar, Toolbar, Typography, Button, Avatar, Paper, Grid, Divider, Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
 import { withStyles, createStyles } from '@material-ui/core/styles';
 import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
+import { BiX, BiChevronDown } from "react-icons/bi";
 import 'react-day-picker/lib/style.css';
 
 const styles = theme => ({
@@ -25,7 +26,9 @@ const styles = theme => ({
         color: "white",
         '&:hover': {
             backgroundColor: "#37B04C",
-            color: "white"
+            color: "white",
+            opacity: 0.8,
+            transitionDuration: "0.2s"
         },
     },
     spacing: {
@@ -40,7 +43,7 @@ const styles = theme => ({
     columnFlex: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "flex-start",
+        alignItems: "stretch",
         marginRight: theme.spacing(2)
     },
     paperPadding: {
@@ -77,18 +80,26 @@ const styles = theme => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         fontSize: 18
+    },
+    clickedButton: {
+        color: "#37B04C",
+        fontWeight: "bold",
+        textAlign: "left"
     }
   });
 
 class FilterCalendar extends React.Component {
   constructor(props) {
     super(props);
-    this.handleDayClick = this.handleDayClick.bind(this);
+    this.handleCloseAccordion = this.handleCloseAccordion.bind(this)
     this.state = {
       resetDays: [],
       selectedDays: [],
+      resetperiod: "",
       period: "",
       accordionExpanded: false,
+      resetButton: null,
+      currentButton: null,
     };
   }
 
@@ -98,18 +109,20 @@ class FilterCalendar extends React.Component {
     const tempDate = new Date();
     let tempNewDate = new Date();
     yesterday.setDate(yesterday.getDate() - 1)
-    lastSevenDays.setDate(yesterday.getDate() - 7)
-    this.setState({ period: `${this.convertDate(lastSevenDays)} - ${this.convertDate(yesterday)}` })
+    lastSevenDays.setDate(yesterday.getDate() - 6)
+    this.setState({ period: `${this.convertDate(lastSevenDays)} - ${this.convertDate(yesterday)}`, resetperiod: `${this.convertDate(lastSevenDays)} - ${this.convertDate(yesterday)}` })
     let selectedDays = this.state.selectedDays;
     for(let i=1;i<=7;i++) {
         tempNewDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate() - i) 
         selectedDays.push(tempNewDate)  
     }
-    this.setState({ selectedDays, resetDays: selectedDays });
+    if(this.state.resetDays == "") {
+        this.setState({ selectedDays, resetDays: selectedDays, resetButton: 3, currentButton: 3 });
+    }
   }
 
-  handleDayClick(day, { selected }) {
-    const { selectedDays } = this.state;
+  handleDayClick = (day, { selected }) => {
+    let selectedDays = this.state.selectedDays;
     if (selected) {
       const selectedIndex = selectedDays.findIndex(selectedDay =>
         DateUtils.isSameDay(selectedDay, day)
@@ -118,12 +131,13 @@ class FilterCalendar extends React.Component {
     } else {
       selectedDays.push(day);
     }
-    this.setState({ selectedDays });
+    this.setState({ selectedDays, period: "Custom" });
   }
 
   handleFilter = (type) => {
     let selectedDays = this.state.selectedDays;
     let period = "";
+    let buttonNumber = this.state.currentButton
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1)
     const tempDate = new Date();
@@ -132,6 +146,7 @@ class FilterCalendar extends React.Component {
         selectedDays = [];
         selectedDays.push(yesterday)
         period = this.convertDate(yesterday);
+        buttonNumber = 2;
     } else if (type === "Last 7 Days") {
         selectedDays = [];
         for(let i=1;i<=7;i++) {
@@ -139,6 +154,7 @@ class FilterCalendar extends React.Component {
             selectedDays.push(tempNewDate)  
         }
         period = `${this.convertDate(tempNewDate)} - ${this.convertDate(yesterday)}`;
+        buttonNumber = 3;
     } else if (type === "Last 30 Days") {
         selectedDays = [];
         for(let i=1;i<=30;i++) {
@@ -146,6 +162,7 @@ class FilterCalendar extends React.Component {
             selectedDays.push(tempNewDate)  
         }
         period = `${this.convertDate(tempNewDate)} - ${this.convertDate(yesterday)}`;
+        buttonNumber = 4;
     } else if (type === "This Month") {
         selectedDays = [];
         for(let i=1;i<tempDate.getDate();i++) {
@@ -153,8 +170,9 @@ class FilterCalendar extends React.Component {
             selectedDays.push(tempNewDate)  
         }
         period = `${this.convertDate(tempNewDate)} - ${this.convertDate(yesterday)}`;
+        buttonNumber = 5;
     }
-    this.setState({ selectedDays, period });
+    this.setState({ selectedDays, period, currentButton: buttonNumber });
   }
 
   convertDate = (d) => {
@@ -166,48 +184,76 @@ class FilterCalendar extends React.Component {
 
    handleAccordionChange = (event, expanded) => {
        if(!expanded) {
-            this.setState({ accordionExpanded: false, selectedDays: this.state.resetDays })
+            this.setState({ accordionExpanded: false, selectedDays: this.state.resetDays, period: this.state.resetperiod, currentButton: this.state.resetButton })
        } else {
-        this.setState({ accordionExpanded: true })
+        this.setState({ accordionExpanded: true, selectedDays: this.state.resetDays, period: this.state.resetperiod })
        }
    }
 
    handleApplyClicked = () => {
-    this.setState({ accordionExpanded: false, resetDays: this.state.selectedDays })
+    this.setState({ accordionExpanded: false, resetDays: this.state.selectedDays, resetperiod: this.state.period, resetButton: this.state.currentButton })
    }
 
+   handleCloseAccordion = () => {
+    this.setState({ accordionExpanded: false, selectedDays: this.state.resetDays, period: this.state.resetperiod, currentButton: this.state.resetButton })
+   }
+ 
   render() {
       const { classes, children, className, ...other } = this.props;
+      const handleCloseAccordionMethod = this.handleCloseAccordion.bind(this)
+      const bindedAccordionExpanded = this.state.accordionExpanded
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1)
+
+      var ignoreClickOnMeElement = document.getElementById('accordion');
+
+      document.addEventListener('click', function(event) {
+          if(ignoreClickOnMeElement && bindedAccordionExpanded) {
+            var isClickInsideElement = ignoreClickOnMeElement.contains(event.target);
+            if (!isClickInsideElement) {
+                handleCloseAccordionMethod()
+            }
+          }
+      });
     return (
-        <Accordion className={classes.spacing} onChange={this.handleAccordionChange} expanded={this.state.accordionExpanded}>
+        <Accordion className={classes.spacing} onChange={this.handleAccordionChange} expanded={this.state.accordionExpanded} id="accordion">
             <AccordionSummary
                 aria-controls="panel1a-content"
                 id="panel1a-header"
+                expandIcon={this.state.accordionExpanded ? <BiX/> : <BiChevronDown/>}
             >
-                <div className={classes.filterPaper}>
-                    <HiOutlineCalendar className={classes.spacingIcon} />
-                    <Typography className={classes.spacingPaper}>
-                        Period
-                    </Typography>
-                    <Typography className={classes.spacingPaper}>
-                        {this.state.period}
-                    </Typography>
+                <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
+                    <div className={classes.filterPaper}>
+                        <HiOutlineCalendar className={classes.spacingIcon} />
+                        <Typography className={classes.spacingPaper}>
+                            Period
+                        </Typography>
+                        <Typography className={classes.spacingPaper}>
+                            {this.state.period}
+                        </Typography>
+                    </div>
                 </div>
             </AccordionSummary>
             <AccordionDetails>
                 <div style={{display: "flex", flexDirection: "row"}}>
                     <div className={classes.columnFlex}>
-                        <Button>Today</Button>
+                        <Button disabled>Today</Button>
                         <Divider className={classes.calendarDivider}/>
-                        <Button onClick={() => this.handleFilter("Yesterday")}>Yesterday</Button>
+                        {this.state.currentButton === 2 ?
+                            <Button className={classes.clickedButton} onClick={() => this.handleFilter("Yesterday")}>Yesterday</Button>
+                        : <Button onClick={() => this.handleFilter("Yesterday")}>Yesterday</Button> }
                         <Divider className={classes.calendarDivider}/>
-                        <Button onClick={() => this.handleFilter("Last 7 Days")}>Last 7 Days</Button>
+                        {this.state.currentButton === 3 ?
+                            <Button className={classes.clickedButton} onClick={() => this.handleFilter("Last 7 Days")}>Last 7 Days</Button>
+                        : <Button onClick={() => this.handleFilter("Last 7 Days")}>Last 7 Days</Button> }
                         <Divider className={classes.calendarDivider}/>
-                        <Button onClick={() => this.handleFilter("Last 30 Days")}>Last 30 Days</Button>
+                        {this.state.currentButton === 4 ?
+                            <Button className={classes.clickedButton} onClick={() => this.handleFilter("Last 30 Days")}>Last 30 Days</Button>
+                        : <Button onClick={() => this.handleFilter("Last 30 Days")}>Last 30 Days</Button> }
                         <Divider className={classes.calendarDivider}/>
-                        <Button onClick={() => this.handleFilter("This Month")}>This Month</Button>
+                        {this.state.currentButton === 5 ?
+                            <Button className={classes.clickedButton} onClick={() => this.handleFilter("This Month")}>This Month</Button>
+                        : <Button onClick={() => this.handleFilter("This Month")}>This Month</Button> }
                         <Divider className={classes.calendarDivider}/>
                         <Button>Custom</Button>
                         <Button className={classes.greenButton} onClick={() => this.handleApplyClicked()}>Apply</Button>

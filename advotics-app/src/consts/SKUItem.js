@@ -21,4 +21,10 @@ export const dummySKUItem = [
         price: 18000,
         quantity_sold: 2
     },
+    {
+        product_name: "Danone Blue Yogurt",
+        image: DanoneYogurt,
+        price: 15000,
+        quantity_sold: 5
+    },
 ]
