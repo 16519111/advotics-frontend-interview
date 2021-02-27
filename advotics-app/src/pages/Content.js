@@ -1,15 +1,16 @@
 import React from "react"
-import { AppBar, Toolbar, Typography, Button, Avatar, Paper, Grid, Divider} from '@material-ui/core';
+import { Typography, Button, Paper, Grid, Menu, MenuItem} from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
-import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
+import { HiOutlineDotsVertical } from "react-icons/hi";
 import ShoppingIcon from "../images/shopping-logo.JPG"
 import Graph from "../components/Graph"
 import { dummySKUItem } from "../consts/SKUItem"
 import Calendar from "../components/Calendar"
-import { BiX, BiChevronDown } from "react-icons/bi";
+import { BiChevronDown } from "react-icons/bi";
+import { FiArrowDown } from "react-icons/fi";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -89,6 +90,12 @@ const useStyles = makeStyles((theme) => ({
   }));
 function DashboardContent() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [graphMenu, setGraphMenu] = React.useState("Last 6 Months");
+
+    const handleChangeMenu = (option) => {
+        setGraphMenu(option);
+        handleClose();
+    }
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -122,7 +129,7 @@ function DashboardContent() {
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                     className={classes.insightSummaryPaper}
-                    expandIcon={<BiChevronDown/>}
+                    expandIcon={<BiChevronDown style={{color: "white"}}/>}
                 >
                     <Typography>
                         MARKET INSIGHTS
@@ -148,9 +155,12 @@ function DashboardContent() {
                                 <Typography variant="h6" style={{fontWeight: "bold"}}>
                                     Rp 3,600,000
                                 </Typography>
-                                <Typography variant="caption">
-                                    <span style={{color: "red", fontWeight: "bold"}}>13.8%</span> last period in products sold
-                                </Typography>
+                                <div style={{display: "flex", alignItems: "center"}}>
+                                    <FiArrowDown style={{color: "red", fontWeight: "bold"}}/>
+                                    <Typography variant="caption">
+                                        <span style={{color: "red", fontWeight: "bold"}}>13.8%</span> last period in products sold
+                                    </Typography>
+                                </div>
                             </div>
                             <img src={ShoppingIcon} alt="img-error" className={classes.shoppingIcon}/>
                         </div>
@@ -164,7 +174,23 @@ function DashboardContent() {
                             <Typography>
                                 AVERAGE PURCHASE VALUE
                             </Typography>
-                            <HiOutlineDotsVertical/>
+                            <div style={{display: "flex", flexDirection: "row", alignItems: "center"}}>
+                                <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} endIcon={<BiChevronDown/>} variant="outlined" style={{marginRight: "10px"}}>
+                                    <Typography variant="caption">{graphMenu}</Typography>
+                                </Button>
+                                <Menu
+                                    id="simple-menu"
+                                    anchorEl={anchorEl}
+                                    keepMounted
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={() => handleChangeMenu("Last 2 Months")}>Last 2 Months</MenuItem>
+                                    <MenuItem onClick={() => handleChangeMenu("Last 4 Months")}>Last 4 Months</MenuItem>
+                                    <MenuItem onClick={() => handleChangeMenu("Last 6 Months")}>Last 6 Months</MenuItem>
+                                </Menu>
+                                <HiOutlineDotsVertical/>
+                            </div>
                         </div>
                         <Graph/>
                     </Paper>
