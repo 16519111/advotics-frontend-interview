@@ -1,9 +1,9 @@
 import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import PropTypes from 'prop-types';
-import { AppBar, Toolbar, Typography, Button, Avatar, Paper, Grid, Divider, Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
-import { withStyles, createStyles } from '@material-ui/core/styles';
-import { HiOutlineCalendar, HiOutlineDotsVertical } from "react-icons/hi";
+import { Typography, Button, Divider, Accordion, AccordionDetails, AccordionSummary } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import { HiOutlineCalendar } from "react-icons/hi";
 import { BiX, BiChevronDown } from "react-icons/bi";
 import 'react-day-picker/lib/style.css';
 
@@ -116,9 +116,7 @@ class FilterCalendar extends React.Component {
         tempNewDate = new Date(tempDate.getFullYear(), tempDate.getMonth(), tempDate.getDate() - i) 
         selectedDays.push(tempNewDate)  
     }
-    if(this.state.resetDays == "") {
-        this.setState({ selectedDays, resetDays: selectedDays, resetButton: 3, currentButton: 3 });
-    }
+    this.setState({ selectedDays, resetDays: selectedDays, resetButton: 3, currentButton: 3 });
   }
 
   handleDayClick = (day, { selected }) => {
@@ -199,7 +197,7 @@ class FilterCalendar extends React.Component {
    }
  
   render() {
-      const { classes, children, className, ...other } = this.props;
+      const { classes } = this.props;
       const handleCloseAccordionMethod = this.handleCloseAccordion.bind(this)
       const bindedAccordionExpanded = this.state.accordionExpanded
       const yesterday = new Date();
@@ -220,7 +218,7 @@ class FilterCalendar extends React.Component {
             <AccordionSummary
                 aria-controls="panel1a-content"
                 id="panel1a-header"
-                expandIcon={this.state.accordionExpanded ? <BiX/> : <BiChevronDown/>}
+                expandIcon={this.state.accordionExpanded ? <BiX/> : <BiChevronDown onClick={() => this.setState({accordionExpanded: true})}/>}
             >
                 <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
                     <div className={classes.filterPaper}>

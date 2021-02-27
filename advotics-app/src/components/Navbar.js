@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button, Avatar } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Avatar } from '@material-ui/core';
 import AdvoticsLogo from '../images/advotics-logo.jpg';
 import PoweredLogo from '../images/powered-by-advotics-logo.JPG';
 import { FiLogOut } from "react-icons/fi";
